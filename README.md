@@ -1,7 +1,7 @@
 # WebServer
 Me trying to make a web server in python (so I don't forget the language)
 Then penetrating the server using a VM (Kali Linux)
-*These are my attached notes, code is attached from VS Code File*
+*These are my attached notes for both parts, code is attached from VS Code File*
 
 **Web Server** - system that stores processes and delivers web pages to users, done usually using http (hyper text transfer protocol)
 ## Step 1: Create and Initialize Socket
