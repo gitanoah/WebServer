@@ -40,5 +40,12 @@
 		- for http 3 we would need to depend on QUIC
 		- for http 2 we would need other protocols that would be able to accept multiple requests at once (multiplexing)
 	- **Set-Fetch-Mode: Navigate** - specifies mode for how request should be made regarding CORS (cross origin resource sharing) protocol, security mechanism by web browsers protecting users from certain types of cyber attacks
-
+		- CORS - mechanism allowing restricted resources on a webpage to be requested from another domain outside the domain from which the first resource was
+		- making sure you can only request data from that website, not from another site directly, protecting visitors from malicious scripts or data thefts
+	- **Sec-Fetch-Dest: document** - type of content client expects to receive from request
+##  HTTP Response
+- responses also have a structure
+- First - STATUS LINE: w/ Http Version, Status code (e.g. '200' means everything went well), and Optional Text Message
+- Second - Has some headers passed to it, similar to request headers
+- Third - Message body (optional)
 
