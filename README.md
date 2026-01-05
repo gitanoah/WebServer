@@ -22,7 +22,7 @@
 		- Connection spots in the listen queue will be free.
 	
 	- 2. **Hypothesis:**
-		- If a client intentionally delays or doesn't complete the TCP handshake process, the connection slots in the queue will remain filled preventing actual clients from connecting or starting the handshake process.
+		- If a client intentionally completes the TCP handshake but doesn't send application-layer data, the connection slots in the queue will remain filled (server will block off `recv()`) preventing actual clients from connecting or starting the handshake process.
 	
 	- 3. **Application of Security Category** (Confidentiality, Integrity, or Availability)
 		- **Availability**
@@ -34,7 +34,7 @@
 		- **Expected Observations**:
 			**If Correct Hypothesis**
 			- New clients will experience delayed connections or connection refusals.
-			- They will experience a blank buffering and no HTTP response at all, it won't even reach the 404 error screen (since to HTTP response is able to be returned it is still waiting on `recv()` from the first connection).
+			- They will experience a blank buffering and no HTTP response at all, it won't even reach the 404 error screen (since no HTTP response is able to be returned it is still waiting on `recv()` from the first connection).
 		    **If Incorrect Hypothesis**
 		    - New clients will connect to the server and access HTTP responses.
 		    - Minimal delay and no connection refusals.
@@ -48,4 +48,14 @@
 
 			- **NetCat with Browser:** When I connected initially through NetCat and then attempted to connect as a client from my browser using "localhost:8000" the server buffered and did not allow the client to complete their connection.
 				- However whenever I sent a HTTP request from NetCat `GET / HTTP/1.1` the server responded with `HTTP/1.1 200 OK` and the client's connection was completed shortly after.
+		- **Conclusion & Lessons Learned:**
+			- Weakness
+				- The server handles connections one by one and blocks indefinitely on `recv()`, which allows a single client to impact availability.
+			- Potential Improvements
+				- Add a socket timeout to limit how long the server waits on a clients data.
+				- Handle each client connection in a separate process.
+				- Limit how long a connection may remain idle.
+			- Key Takeaways
+				- Availability vulnerabilities can exist even in simple systems.
+				- Network layer behavior can prevent the execution of application layer logic.
 	
